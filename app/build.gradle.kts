@@ -66,4 +66,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation ("androidx.compose.material:material-icons-extended:1.7.4")
+    implementation("io.coil-kt:coil-compose:2.4.0")
+//    val nav_version = "2.7.7"
+    implementation("androidx.navigation:navigation-compose:2.8.3")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
 }
