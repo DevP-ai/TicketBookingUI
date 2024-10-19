@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.technologia.ticketbookingui.Presentation.HomeScreen
 import com.technologia.ticketbookingui.ui.theme.TicketBookingUITheme
 
 class MainActivity : ComponentActivity() {
@@ -47,7 +48,9 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(paddingValues = innerPadding)
                     ) {
                         val navController = rememberNavController()
-
+                        HomeScreen(navHostController = navController, isMyMode = modeChange.value) {
+                            modeChange.value = !modeChange.value
+                        }
                     }
                 }
             }
