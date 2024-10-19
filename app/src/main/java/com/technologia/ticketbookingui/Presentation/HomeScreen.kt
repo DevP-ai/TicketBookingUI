@@ -5,7 +5,9 @@ import android.widget.Toast
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -53,6 +56,7 @@ import com.technologia.ticketbookingui.ui.theme.Gray
 import com.technologia.ticketbookingui.ui.theme.Red
 import com.technologia.ticketbookingui.ui.theme.Yellow
 import kotlinx.coroutines.delay
+import java.util.Locale.Category
 
 @Composable
 fun HomeScreen(
@@ -112,6 +116,30 @@ fun HomeScreen(
             Spacer(modifier = modifier.height(24.dp))
 
             Banner()
+
+            Spacer(modifier = modifier.height(24.dp))
+
+            Row (
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
+                Text(
+                    text = "Category",
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                TextButton(onClick = { /*TODO*/ }) {
+                    Text(text = "See All")
+                }
+
+            }
+            Spacer(modifier = modifier.height(4.dp))
+
+            Categories()
+
 
         }
 
@@ -225,7 +253,9 @@ fun MarqueeWithClickableText(modifier: Modifier = Modifier) {
     Box(modifier = Modifier
         .padding(horizontal = 24.dp)
         .clickable {
-            Toast.makeText(context, "Clickable Text Clicked!", Toast.LENGTH_SHORT).show()
+            Toast
+                .makeText(context, "Clickable Text Clicked!", Toast.LENGTH_SHORT)
+                .show()
 
         }){
         Text(
@@ -237,6 +267,52 @@ fun MarqueeWithClickableText(modifier: Modifier = Modifier) {
                 .basicMarquee()
 
         )
+    }
+
+}
+
+@Composable
+fun Categories(modifier: Modifier = Modifier) {
+    val category = listOf(
+        "Action",
+        "Romantic",
+        "Sci-fi",
+        "History",
+        "Comedy",
+        "Adventure",
+        "Horror",
+        "Mystery",
+        "Thriller",
+        "War & Politics"
+    )
+
+    val scrollState = rememberScrollState()
+
+    Row (modifier = modifier
+        .horizontalScroll(scrollState)
+    ){
+        repeat(category.size){index->
+            Surface(
+                modifier = modifier
+                    .padding(
+                        start = if (index == 0) 24.dp else 0.dp,
+                        end = 12.dp
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = Color.Gray,
+                        shape = RoundedCornerShape(16.dp)
+                    )
+                    .clip(RoundedCornerShape(16.dp))
+                    .clickable { }
+                    .padding(12.dp)
+            ) {
+                Text(
+                    text = category[index],
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+        }
     }
 
 }
