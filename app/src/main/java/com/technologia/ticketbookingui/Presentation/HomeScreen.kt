@@ -3,6 +3,7 @@ package com.technologia.ticketbookingui.Presentation
 import android.widget.Space
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -91,9 +92,10 @@ fun HomeScreen(
             Spacer(modifier = modifier.height(4.dp))
 
             Text(
-                text = "Book Your Favourite Movie Here!",
+                text = "Experience the magic of cinema with ease—book your movie tickets in seconds and never miss a moment of entertainment!",
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = modifier.padding(horizontal = 24.dp)
+                    .basicMarquee()
             )
 
             Spacer(modifier = modifier.height(24.dp))
