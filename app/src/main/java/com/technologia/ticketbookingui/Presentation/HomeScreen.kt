@@ -1,9 +1,11 @@
 package com.technologia.ticketbookingui.Presentation
 
 import android.widget.Space
+import android.widget.Toast
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +20,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -36,7 +39,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -91,12 +99,15 @@ fun HomeScreen(
             }
             Spacer(modifier = modifier.height(4.dp))
 
-            Text(
-                text = "Experience the magic of cinema with ease—book your movie tickets in seconds and never miss a moment of entertainment!",
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = modifier.padding(horizontal = 24.dp)
-                    .basicMarquee()
-            )
+            MarqueeWithClickableText()
+//            Text(
+//                text = "Book Your Favourite Movie Here!  Book Your Favourite Movie Here!  Book Your Favourite Movie Here!",
+//                style = MaterialTheme.typography.bodyMedium,
+//                modifier = modifier
+//                    .padding(horizontal = 24.dp)
+//                    .fillMaxWidth()
+//                    .basicMarquee()
+//            )
 
             Spacer(modifier = modifier.height(24.dp))
 
@@ -194,6 +205,38 @@ fun Banner(modifier: Modifier = Modifier) {
                 ){}
             }
         }
+    }
+
+}
+
+@Composable
+fun MarqueeWithClickableText(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val annotatedText = buildAnnotatedString {
+         append("Hurry Up!! Book Your Favourite Movie Here! with 20% discount.")
+
+         pushStringAnnotation(tag = "Book", annotation = "Book")
+         withStyle(style = SpanStyle(color = Color.Blue, textDecoration = TextDecoration.Underline)){
+             append("Click Here")
+         }
+         pop()
+     }
+
+    Box(modifier = Modifier
+        .padding(horizontal = 24.dp)
+        .clickable {
+            Toast.makeText(context, "Clickable Text Clicked!", Toast.LENGTH_SHORT).show()
+
+        }){
+        Text(
+            text = annotatedText,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = modifier
+                .padding(horizontal = 24.dp)
+                .fillMaxWidth()
+                .basicMarquee()
+
+        )
     }
 
 }
