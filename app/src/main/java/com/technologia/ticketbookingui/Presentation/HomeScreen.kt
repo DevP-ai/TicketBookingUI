@@ -4,6 +4,7 @@ import android.widget.Space
 import android.widget.Toast
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -11,6 +12,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -41,22 +44,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.ScaleFactor
+import androidx.compose.ui.layout.lerp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.lerp
 import androidx.navigation.NavHostController
 import com.technologia.ticketbookingui.R
+import com.technologia.ticketbookingui.models.nowPlaying
+import com.technologia.ticketbookingui.ui.theme.BlueVariant
 import com.technologia.ticketbookingui.ui.theme.Gray
 import com.technologia.ticketbookingui.ui.theme.Red
 import com.technologia.ticketbookingui.ui.theme.Yellow
 import kotlinx.coroutines.delay
 import java.util.Locale.Category
+import kotlin.math.absoluteValue
 
 @Composable
 fun HomeScreen(
@@ -140,7 +152,29 @@ fun HomeScreen(
 
             Categories()
 
+            Spacer(modifier = modifier.height(16.dp))
 
+            Row (modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
+                Text(
+                    text = "Now Playing Movie",
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                TextButton(onClick = { /*TODO*/ }) {
+                    Text(text = "See All")
+                }
+            }
+
+            Spacer(modifier = modifier.height(16.dp))
+
+            NowPlayingMovie()
+
+            Spacer(modifier = modifier.height(16.dp))
         }
 
     }
@@ -315,4 +349,80 @@ fun Categories(modifier: Modifier = Modifier) {
         }
     }
 
+}
+
+@Preview
+@Composable
+fun NowPlayingMovie() {
+    val pagerState = rememberPagerState(pageCount = { nowPlaying.size })
+
+    HorizontalPager(
+        state = pagerState,
+        contentPadding = PaddingValues(
+            start = 48.dp,
+            end = 48.dp,
+            )
+    ) {page->
+        Column(
+            modifier = Modifier
+                .wrapContentHeight()
+                .graphicsLayer {
+                    val pageOffset = pagerState.getOffsetDistanceInPages(page).absoluteValue
+                    lerp(
+                        start = ScaleFactor(1f, 0.85f),
+                        stop = ScaleFactor(1f, 1f),
+                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                    ).also { scale ->
+                        scaleX = scale.scaleX
+                        scaleY = scale.scaleY
+                    }
+                }
+                .clickable {
+
+                },
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(16.dp)),
+                contentAlignment = Alignment.BottomCenter
+            ){
+                Image(
+                    painter = painterResource(id = nowPlaying[page].assetImage) ,
+                    contentDescription = "Movie Image",
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .fillMaxWidth(fraction = 0.85f)
+                        .height(340.dp)
+                )
+
+                Box(modifier = Modifier
+                    .fillMaxWidth(fraction = 0.85f)
+                    .wrapContentHeight()
+                    .graphicsLayer {
+                        val pageOffset = pagerState.getOffsetDistanceInPages(page).absoluteValue
+                        val translation = pageOffset.coerceIn(0f, 1f)
+                        translationY = translation * 200
+                    }
+                    .background(BlueVariant)
+                    .padding(vertical = 16.dp),
+                    contentAlignment = Alignment.BottomCenter
+                ){  
+                    Text(
+                        text = nowPlaying[page].title,
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center,
+                        color = Yellow
+                    )
+                }
+//                Spacer(modifier = Modifier.height(10.dp))
+//                Text(
+//                    text = "Buy Ticket",
+//                    style = MaterialTheme.typography.titleSmall,
+//                    color = Red,
+//                    fontWeight = FontWeight.Bold
+//                )
+            }
+        }
+    }
 }
