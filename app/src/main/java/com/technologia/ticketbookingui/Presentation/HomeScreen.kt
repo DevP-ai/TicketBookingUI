@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -62,6 +64,7 @@ import androidx.compose.ui.unit.lerp
 import androidx.navigation.NavHostController
 import com.technologia.ticketbookingui.R
 import com.technologia.ticketbookingui.models.nowPlaying
+import com.technologia.ticketbookingui.models.upcomingMovie
 import com.technologia.ticketbookingui.ui.theme.BlueVariant
 import com.technologia.ticketbookingui.ui.theme.Gray
 import com.technologia.ticketbookingui.ui.theme.Red
@@ -175,6 +178,28 @@ fun HomeScreen(
             NowPlayingMovie()
 
             Spacer(modifier = modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "Upcoming Movie",
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                TextButton(onClick = { /*TODO*/ }) {
+                    Text(text = "See All")
+                }
+            }
+
+            Spacer(modifier = modifier.height(16.dp))
+
+            UpcomingMovie()
+
         }
 
     }
@@ -422,6 +447,43 @@ fun NowPlayingMovie() {
 //                    color = Red,
 //                    fontWeight = FontWeight.Bold
 //                )
+            }
+        }
+    }
+}
+
+@Composable
+fun UpcomingMovie(modifier: Modifier = Modifier) {
+    LazyRow (
+        contentPadding = PaddingValues(start = 24.dp)
+    ){
+        items(count = upcomingMovie.size){index->
+            Box(modifier = Modifier
+                .padding(end = 24.dp)
+                .clickable {  }
+            ){
+                Column (
+                    modifier = modifier
+                        .wrapContentHeight()
+                        .clip(shape = RoundedCornerShape(8.dp)),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Image(
+                        painter = painterResource(id = upcomingMovie[index].assetImage),
+                        contentDescription = "Upcoming Movie",
+                        contentScale = ContentScale.FillBounds,
+                        modifier = modifier.size(width = 200.dp, height = 260.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = upcomingMovie[index].title,
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                }
             }
         }
     }

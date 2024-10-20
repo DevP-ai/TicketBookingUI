@@ -46,7 +46,7 @@ val nowPlaying = listOf(
     )
 )
 
-val upcoming = listOf(
+val upcomingMovie = listOf(
     MovieModel(
         id= "4",
         title = "DC League of Super-Pets",
