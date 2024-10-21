@@ -101,16 +101,45 @@ fun DetailScreen(
                     MovieInfo(
                         painterRes = R.drawable.baseline_access_time_filled,
                         title = "Duration",
-                        value = movieModel.type
+                        value = movieModel.duration
                     )
 
                     MovieInfo(
                         painterRes = R.drawable.baseline_stars,
                         title = "Rating",
-                        value = movieModel.type
+                        value = movieModel.rating
                     )
                 }
             }
+
+            Text(
+                text = movieModel.title,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = modifier.padding(
+                    horizontal = 24.dp,
+                    vertical = 16.dp
+                )
+            )
+
+            Text(
+                text = "Synopsis",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = modifier.padding(
+                    horizontal = 24.dp,
+                    vertical = 16.dp
+                )
+            )
+
+            Text(
+                text = movieModel.synopsis,
+                style = MaterialTheme.typography.titleSmall,
+                modifier = modifier.padding(
+                    horizontal = 24.dp,
+                    vertical = 16.dp
+                )
+            )
+
+            Spacer(modifier = Modifier.height(64.dp))
 
         }
 
