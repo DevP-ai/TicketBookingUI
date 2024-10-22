@@ -70,8 +70,8 @@ fun DetailScreen(
                 modifier=modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = { }) {
-                    androidx.compose.material3.Icon(
+                IconButton(onClick = {navController.navigateUp() }) {
+                    Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Arrow Back"
                     )

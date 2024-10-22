@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.technologia.ticketbookingui.Presentation.DetailScreen
 import com.technologia.ticketbookingui.Presentation.HomeScreen
+import com.technologia.ticketbookingui.Presentation.SeatSelectorScreen
 import com.technologia.ticketbookingui.core.AppRoute
 import com.technologia.ticketbookingui.models.MovieModel
 import com.technologia.ticketbookingui.ui.theme.TicketBookingUITheme
@@ -51,12 +52,13 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(paddingValues = innerPadding)
                     ) {
                         val navController = rememberNavController()
-                        AppRoute.GenerateRoute(
-                            navController = navController,
-                            isMyMode = modeChange.value,
-                            onModeToggle = {
-                                modeChange.value =! modeChange.value
-                            })
+//                        AppRoute.GenerateRoute(
+//                            navController = navController,
+//                            isMyMode = modeChange.value,
+//                            onModeToggle = {
+//                                modeChange.value =! modeChange.value
+//                            })
+                        SeatSelectorScreen()
 //                        HomeScreen(navHostController = navController, isMyMode = modeChange.value) {
 //                            modeChange.value = !modeChange.value
 //                        }
