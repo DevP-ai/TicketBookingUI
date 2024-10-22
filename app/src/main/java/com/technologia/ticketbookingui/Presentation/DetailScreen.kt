@@ -14,11 +14,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -36,16 +40,26 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.technologia.ticketbookingui.R
 import com.technologia.ticketbookingui.models.MovieModel
+import com.technologia.ticketbookingui.ui.theme.Yellow
 
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
-//    navController: NavController,
+    navController: NavController,
     movieModel: MovieModel
 ) {
     val scrollState = rememberScrollState()
 
-    Scaffold() {paddingValues ->
+    Scaffold(
+        floatingActionButtonPosition = FabPosition.Center,
+        floatingActionButton = {
+            Row {
+                FloatButton()
+                Spacer(modifier = modifier.width(16.dp))
+                FloatButton()
+            }
+        }
+    ) {paddingValues ->
 
         Column(
             modifier= modifier
@@ -179,5 +193,17 @@ fun MovieInfo(
             text = value,
             style = MaterialTheme.typography.bodyMedium
         )
+    }
+}
+
+@Preview
+@Composable
+fun FloatButton(modifier: Modifier=Modifier) {
+    Button(modifier = modifier
+        .wrapContentWidth()
+        .height(56.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = Yellow),
+        onClick = {}) {
+        Text(text = "Booking Now")
     }
 }

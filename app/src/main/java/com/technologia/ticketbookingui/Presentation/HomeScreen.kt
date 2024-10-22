@@ -63,6 +63,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import androidx.navigation.NavHostController
 import com.technologia.ticketbookingui.R
+import com.technologia.ticketbookingui.core.RouteName
+import com.technologia.ticketbookingui.models.MovieModel
 import com.technologia.ticketbookingui.models.nowPlaying
 import com.technologia.ticketbookingui.models.upcomingMovie
 import com.technologia.ticketbookingui.ui.theme.BlueVariant
@@ -175,7 +177,9 @@ fun HomeScreen(
 
             Spacer(modifier = modifier.height(16.dp))
 
-            NowPlayingMovie()
+            NowPlayingMovie {movie->
+                navHostController.navigate("${RouteName.DETAILS}/${movie.id}")
+            }
 
             Spacer(modifier = modifier.height(16.dp))
 
@@ -376,9 +380,9 @@ fun Categories(modifier: Modifier = Modifier) {
 
 }
 
-@Preview
+
 @Composable
-fun NowPlayingMovie() {
+fun NowPlayingMovie(onMovieClicked:(MovieModel)->Unit) {
     val pagerState = rememberPagerState(pageCount = { nowPlaying.size })
 
     HorizontalPager(
@@ -403,7 +407,7 @@ fun NowPlayingMovie() {
                     }
                 }
                 .clickable {
-
+                    onMovieClicked(nowPlaying[page])
                 },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -460,7 +464,7 @@ fun UpcomingMovie(modifier: Modifier = Modifier) {
         items(count = upcomingMovie.size){index->
             Box(modifier = Modifier
                 .padding(end = 24.dp)
-                .clickable {  }
+                .clickable { }
             ){
                 Column (
                     modifier = modifier

@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.technologia.ticketbookingui.Presentation.DetailScreen
 import com.technologia.ticketbookingui.Presentation.HomeScreen
+import com.technologia.ticketbookingui.core.AppRoute
 import com.technologia.ticketbookingui.models.MovieModel
 import com.technologia.ticketbookingui.ui.theme.TicketBookingUITheme
 
@@ -50,19 +51,25 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(paddingValues = innerPadding)
                     ) {
                         val navController = rememberNavController()
+                        AppRoute.GenerateRoute(
+                            navController = navController,
+                            isMyMode = modeChange.value,
+                            onModeToggle = {
+                                modeChange.value =! modeChange.value
+                            })
 //                        HomeScreen(navHostController = navController, isMyMode = modeChange.value) {
 //                            modeChange.value = !modeChange.value
 //                        }
-                        DetailScreen(movieModel =   MovieModel(
-                            id = "1",
-                            title = "Minions: The Rise of Gru",
-                            assetImage = R.drawable.minion,
-                            type = "Action",
-                            duration = "1h 27m",
-                            rating = "7.7/10",
-                            synopsis = "A fanboy of a supervillain supergroup known as the Vicious 6, Gru hatches a plan to become evil enough to join them, with the backup of his followers, the Minions.",
-                            isPlaying = true
-                        ))
+//                        DetailScreen(movieModel =   MovieModel(
+//                            id = "1",
+//                            title = "Minions: The Rise of Gru",
+//                            assetImage = R.drawable.minion,
+//                            type = "Action",
+//                            duration = "1h 27m",
+//                            rating = "7.7/10",
+//                            synopsis = "A fanboy of a supervillain supergroup known as the Vicious 6, Gru hatches a plan to become evil enough to join them, with the backup of his followers, the Minions.",
+//                            isPlaying = true
+//                        ))
                     }
                 }
             }
